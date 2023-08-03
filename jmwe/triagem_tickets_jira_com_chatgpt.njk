@@ -1,0 +1,61 @@
+{# Configuração da conexão com o ChatGPT #}
+{%- set apiKey = "TOKEN" -%}
+
+{# Definição da descrição do ticket e do prompt do usuário #}
+{% set description = issue.fields.description %}
+{% set user_prompt = 'Leia a Descrição entre os delimitadores {} e defina os valores para os campos abaixo:
+
+Sentimento - Este campo deve retornar um dos seguintes valores: Positivo, Negativo ou Neutro.
+
+Categoria do Sentimento - Este campo deve indicar a categoria que melhor se enquadra com base no campo Descrição.
+Ele deve retornar uma das seguintes categorias:
+
+Reservas e Compras de Passagens
+Processo de Check-in
+Gestão de Bagagem
+Atrasos e Cancelamentos
+Reembolsos e Alterações de Voo
+Seleção de Assentos
+Serviço de Bordo
+Programa de Fidelidade
+Acessibilidade
+Segurança
+Conexão Wi-Fi a Bordo
+Feedback e Sugestões
+Outros
+
+Motivo do Sentimento - Neste campo, você deve descrever o motivo pelo qual você (ChatGPT) escolheu o valor para o campo Sentimento,
+seja ele Positivo, Negativo ou Neutro.
+
+Por favor, retorne os resultados em um arquivo JSON, conforme exemplo abaixo:
+
+{
+"Sentimento": "Positivo",
+"Categoria": "Processo de Check-in",
+"Motivo do Sentimento": "Adicione aqui o motivo pelo qual você escolheu o valor para o campo Sentimento."
+}
+' + '{' + description + '}' %}
+
+{# Configuração da carga útil (payload) para a chamada da API #}
+{%- set payload = {
+  "model": "gpt-3.5-turbo",
+  "messages": [{"role": "user", "content": user_prompt }],
+  "temperature": 0.7
+} -%}
+
+{# Chamada para a API do ChatGPT #}
+{%- set response = "https://api.openai.com/v1/chat/completions" | callRest(
+  verb = "POST",
+  options = {
+    "auth": {
+      "bearer": apiKey
+    },
+    "headers": {
+      "Content-Type": "application/json"
+    }
+   },
+   body = payload
+) -%}
+
+{# Extração da resposta da API #}
+{{response | field ("choices") | field ("message") | field ("content")}}
