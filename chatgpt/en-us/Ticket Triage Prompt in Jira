@@ -1,3 +1,5 @@
+<description> Put the ticket description here. </description>
+
 Read the Description between the delimiters <description></description> and set the values for the fields below:
 
 Sentiment - This field must return one of the following values: Positive, Negative, or Neutral.
