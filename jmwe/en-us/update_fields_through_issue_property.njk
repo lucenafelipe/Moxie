@@ -1,0 +1,8 @@
+{# Script to update Sentiment field #}
+{{issue  | issueProperty( "triage_info" ) | field("Sentiment") }}
+
+{# Script to update the Sentiment Reason field #}
+{{issue  | issueProperty( "triage_info" ) | field("Sentiment Reason") }}
+
+{# Script to update the Service field #}
+{{issue  | issueProperty( "triage_info" ) | field("Service") }}
