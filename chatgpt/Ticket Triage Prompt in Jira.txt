@@ -1,0 +1,32 @@
+Read the Description between the delimiters <description></description> and set the values for the fields below:
+
+Sentiment - This field must return one of the following values: Positive, Negative or Neutral.
+
+Service - This field should indicate the Service / Category that best fits based on the Description field.
+
+It must return one of the following Services:
+
+Ticket Reservations and Purchases
+Check in Process
+Baggage Management
+Delays and Cancellations
+Refunds and Flight Changes
+Seat Selection
+On Board Service
+loyalty program
+Accessibility
+Security
+Wi-Fi connection on board
+Feedback and Suggestions
+Others
+
+Reason for Sentiment - In this field, you must describe the reason why you (ChatGPT) chose the value for the Sentiment field,
+be it Positive, Negative or Neutral.
+
+Please return the results in a JSON file, as shown below:
+
+{
+"Sentiment": "Positive",
+"Service": "Check-in Process",
+"Sentiment Reason": "Add here the reason why you chose the value for the Sentiment field."
+}
