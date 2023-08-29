@@ -1,0 +1,57 @@
+{#
+  ---------------------------------------------------------------------------
+  Author: Felipe Lucena
+  Version: 1.0
+  Purpose: Extract ticket description from Jira issue and interact with ChatGPT 
+           to obtain sentiment, service type, and reason for sentiment.
+  ---------------------------------------------------------------------------
+#}
+
+{# Import required connections #}
+{%- import "openai_connection" as chatgpt -%}
+
+{# Retrieve the API key #}
+{%- set api_key = chatgpt.print("api_key_1") | trim -%}
+
+{# Extract ticket description and format user prompt #}
+{% set description = issue.fields.description %}
+{% set user_prompt = 
+  '<description>' + description + '</description>' +
+  'Read the Description between the delimiters <description></description> and set the values for the fields below:' +
+  'Sentiment - This field must return one of the following values: Positive, Negative, or Neutral.' +
+  'Service - This field should indicate the Service / Category that best fits based on the Description field.' +
+  'It must return one of the following Services:' +
+  'Ticket Reservations and Purchases, Check-in Process, Baggage Management, Delays and Cancellations, Refunds and Flight Changes,' +
+  'Seat Selection, On Board Service, loyalty program, Accessibility, Security, Wi-Fi connection on board, Feedback and Suggestions, Others.' +
+  'Reason for Sentiment - In this field, you must describe the reason why you (ChatGPT) chose the value for the Sentiment field, be it Positive, Negative or Neutral.' +
+  'Please return the results in a JSON file, as shown below:' +
+  '{' +
+  '"Sentiment": "Positive",' +
+  '"Service": "Check-in Process",' +
+  '"Sentiment Reason": "Add here the reason why you chose the value for the Sentiment field."' +
+  '}'
+%}
+
+{# Configure the payload for ChatGPT API request #}
+{%- set payload = {
+  "model": "gpt-3.5-turbo",
+  "messages": [{"role": "user", "content": user_prompt }],
+  "temperature": 0.7
+} -%}
+
+{# Make a POST request to ChatGPT API and retrieve the response #}
+{%- set response = "https://api.openai.com/v1/chat/completions" | callRest(
+  verb = "POST",
+  options = {
+    "auth": {
+      "bearer": api_key
+    },
+    "headers": {
+      "Content-Type": "application/json"
+    }
+  },
+  body = payload
+) -%}
+
+{# Extract and display the desired content from the response #}
+{{response | field ("choices") | field ("message") | field ("content")}}
