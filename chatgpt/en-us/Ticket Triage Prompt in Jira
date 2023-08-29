@@ -1,14 +1,13 @@
-
 Read the Description between the delimiters <description></description> and set the values for the fields below:
 
-Sentiment - This field must return one of the following values: Positive, Negative or Neutral.
+Sentiment - This field must return one of the following values: Positive, Negative, or Neutral.
 
 Service - This field should indicate the Service / Category that best fits based on the Description field.
 
 It must return one of the following Services:
 
 Ticket Reservations and Purchases
-Check in Process
+Check-in Process
 Baggage Management
 Delays and Cancellations
 Refunds and Flight Changes
