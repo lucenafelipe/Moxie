@@ -7,11 +7,8 @@
   ---------------------------------------------------------------------------
 #}
 
-{# Import required connections #}
-{%- import "openai_connection" as chatgpt -%}
-
-{# Retrieve the API key #}
-{%- set api_key = chatgpt.print("api_key_1") | trim -%}
+{# Token to connect with OpenAI #}
+{%- set api_key = '' -%}
 
 {# Extract ticket description and format user prompt #}
 {% set description = issue.fields.description %}
