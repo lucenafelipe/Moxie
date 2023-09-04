@@ -22,8 +22,7 @@ Wi-Fi connection on board
 Feedback and Suggestions
 Others
 
-Reason for Sentiment - In this field, you must describe the reason why you (ChatGPT) chose the value for the Sentiment field,
-be it Positive, Negative or Neutral.
+Reason for Sentiment - In this field, you must describe the reason why you (ChatGPT) chose the value for the Sentiment field, be it Positive, Negative, or Neutral.
 
 Please return the results in a JSON file, as shown below:
 
